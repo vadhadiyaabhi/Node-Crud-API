@@ -1,7 +1,9 @@
+require("dotenv").config();
 const express = require("express");
 require("./db/conn");
 const todoRouter = require("./routers/todo");
 const userRouter = require("./routers/user");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -19,9 +21,11 @@ const port = process.env.PORT || 8000;
 
 // // 3. -------------------------------------- Register express router
 app.use(express.json());   //------------------ This line must be before defined router
+app.use(cookieParser());
 app.use(todoRouter);
 app.use(userRouter);
 
+// console.log(process.env);
 
 app.get("/", (req, res) => {
     res.send("Hii, Todos Rest API working fine");

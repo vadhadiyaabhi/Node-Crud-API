@@ -1,5 +1,6 @@
 const express = require("express");
 const Todos = require("../models/todos");
+const auth = require("../middleware/auth");
 const router = new express.Router();
 
 
@@ -7,9 +8,10 @@ const router = new express.Router();
 //     res.send("Hii, Express router working fine");
 // })
 
-router.get("/todos", async (req, res) => {
+router.get("/todos", auth, async (req, res) => {
 
     try{
+        // console.log(req.cookies.jwtToken);
         const todos = await Todos.find();
         res.send(todos);
     }catch(err){
@@ -18,7 +20,7 @@ router.get("/todos", async (req, res) => {
 
 })
 
-router.get("/todos/:id", async (req, res) => {
+router.get("/todos/:id", auth, async (req, res) => {
 
     try{
         const _id = req.params.id;
@@ -53,7 +55,7 @@ router.get("/todos/:id", async (req, res) => {
 
 
 //----------------------using async await--------------------
-router.post("/todos", async (req, res) => {
+router.post("/todos", auth, async (req, res) => {
 
     try{
         const todo = new Todos(req.body);
@@ -68,7 +70,7 @@ router.post("/todos", async (req, res) => {
 
 })
 
-router.patch("/todos/:id", async (req, res) => {
+router.patch("/todos/:id", auth, async (req, res) => {
 
     try{
         const updatedTodo = await Todos.findByIdAndUpdate(req.params.id, req.body, {
@@ -81,7 +83,7 @@ router.patch("/todos/:id", async (req, res) => {
     }
 })
 
-router.delete("/todos/:id", async (req,res) => {
+router.delete("/todos/:id", auth, async (req,res) => {
     try{
         // const id = req.params.id;
         const deletedTodo = await Todos.findByIdAndDelete(req.params.id);
