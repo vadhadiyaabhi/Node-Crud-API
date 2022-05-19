@@ -4,6 +4,7 @@ require("./db/conn");
 const todoRouter = require("./routers/todo");
 const userRouter = require("./routers/user");
 const cookieParser = require("cookie-parser");
+const log = require("./logger/index");
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -127,6 +128,7 @@ app.get("*", (req, res) => {
 
 
 app.listen(port, () => {
-    console.log(`Listing at Port ${port}`);
+    // console.log(`Listing at Port ${port}`);
+    log.info(`Server Listing at Port ${port}`);
 })
 
